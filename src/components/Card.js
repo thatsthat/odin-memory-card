@@ -2,36 +2,26 @@ import React, { useState, useEffect } from "react";
 import styles from "../styles/Card.module.css";
 
 const Card = () => {
-  const [state, setState] = useState({
-    flagID: "",
-    flagName: "",
-  });
+  const [img, setImg] = useState();
 
   useEffect(() => {
-    (async () => {
-      let resp = await fetch("https://flagcdn.com/en/codes.json");
-      let data = await resp.json();
-      //console.log(data);
-      setState((prevState) => ({
-        ...prevState,
-        flagID: JSON.stringify(data, null, 2),
-      }));
-    })();
+    fetchImage();
   }, []);
 
-  const handleChange = (event) => {
-    const { name, value } = event.target;
-    setState((prevState) => ({
-      ...prevState,
-      [name]: value,
-    }));
+  const fetchImage = async () => {
+    const resp = await fetch("https://flagcdn.com/en/codes.json");
+    const data = await resp.json();
+    const imageUrl = `https://flagcdn.com/${Object.keys(data)[33]}.svg`;
+    const res = await fetch(imageUrl);
+    const imageBlob = await res.blob();
+    const imageObjectURL = URL.createObjectURL(imageBlob);
+    setImg(imageObjectURL);
+    return URL;
   };
-
-  const object2List = (object) => {};
 
   return (
     <div>
-      <pre>{state.flagID}</pre>
+      <img src={img} width="30" alt="iep" />
     </div>
   );
 };
