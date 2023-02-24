@@ -2,7 +2,8 @@ import React, { useState, useEffect } from "react";
 import styles from "../styles/Card.module.css";
 
 const Card = () => {
-  const [img, setImg] = useState();
+  const [flagImg, setFlagImg] = useState();
+  const [flagName, setFlagName] = useState();
 
   useEffect(() => {
     fetchImage();
@@ -15,13 +16,17 @@ const Card = () => {
     const res = await fetch(imageUrl);
     const imageBlob = await res.blob();
     const imageObjectURL = URL.createObjectURL(imageBlob);
-    setImg(imageObjectURL);
+    setFlagImg(imageObjectURL);
+    setFlagName(Object.values(data)[33]);
     return URL;
   };
 
   return (
     <div>
-      <img src={img} width="30" alt="iep" />
+      <div className="card">
+        <img src={flagImg} width="150" alt="flag" />
+        <div>{flagName}</div>
+      </div>
     </div>
   );
 };
