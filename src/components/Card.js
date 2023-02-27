@@ -23,7 +23,7 @@ const Card = () => {
 
   return (
     <div>
-      <div className="card">
+      <div className={styles.card}>
         <img src={flagImg} width="150" alt="flag" />
         <div>{flagName}</div>
       </div>
