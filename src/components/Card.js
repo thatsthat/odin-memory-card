@@ -9,7 +9,7 @@ const Card = (props) => {
   }, []);
 
   const fetchImage = async () => {
-    const imageUrl = `https://flagcdn.com/${props.code}.svg`;
+    const imageUrl = `https://flagcdn.com/${props.keyS}.svg`;
     const res = await fetch(imageUrl);
     const imageBlob = await res.blob();
     const imageObjectURL = URL.createObjectURL(imageBlob);
