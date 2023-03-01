@@ -3,15 +3,13 @@ import styles from "../styles/Deck.module.css";
 import Card from "./Card";
 
 const Deck = () => {
-  const [flagNames, setFlagNames] = useState();
-  const [flagCodes, setFlagCodes] = useState();
+  const [flagData, setFlagData] = useState();
 
   useEffect(() => {
     const fetchList = async () => {
       const resp = await fetch("https://flagcdn.com/en/codes.json");
       const data = await resp.json();
-      setFlagNames(Object.values(data));
-      setFlagCodes(Object.keys(data));
+      setFlagData(data);
     };
 
     fetchList();
@@ -19,12 +17,15 @@ const Deck = () => {
 
   return (
     <div className={styles.deck}>
-      {flagNames}
-      <div></div>
-      {flagCodes}
-      {Array(...Array(3)).map((v, i) => (
-        <Card key={i} keyS="gb" name="iep" />
-      ))}
+      {flagData
+        ? Array(...Array(3)).map((v, i) => (
+            <Card
+              key={i}
+              keyS={Object.keys(flagData)[i]}
+              name={Object.values(flagData)[i]}
+            />
+          ))
+        : ""}
     </div>
   );
 };
