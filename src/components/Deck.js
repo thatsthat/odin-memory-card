@@ -4,32 +4,38 @@ import Card from "./Card";
 
 const Deck = () => {
   const [flagData, setFlagData] = useState();
-  const [flagSequence, setFlagSequence] = useState();
 
   useEffect(() => {
-    const fetchList = async () => {
+    const fetchImage = async (flagCode) => {
+      const imageUrl = `https://flagcdn.com/${flagCode}.svg`;
+      const res = await fetch(imageUrl);
+      const imageBlob = await res.blob();
+      const imageObjectURL = URL.createObjectURL(imageBlob);
+      return imageObjectURL;
+    };
+    const fetchImages = async () => {
       const resp = await fetch("https://flagcdn.com/en/codes.json");
       const data = await resp.json();
-      setFlagData(data);
       const totalFlags = Object.keys(data).length;
-      const flagSequence = Array(...Array(12)).map((v, i) =>
-        Math.floor(Math.random() * totalFlags)
+      const images = await Promise.all(
+        Array(...Array(3)).map(async (v, i) => {
+          const randNum = Math.floor(Math.random() * totalFlags);
+          return {
+            url: await fetchImage(Object.keys(data)[randNum]),
+            name: Object.values(data)[randNum],
+          };
+        })
       );
-      setFlagSequence(flagSequence);
+      setFlagData(images);
     };
-
-    fetchList();
+    fetchImages();
   }, []);
 
   return (
     <div className={styles.deck}>
-      {flagData && flagSequence
-        ? Array(...Array(12)).map((v, i) => (
-            <Card
-              key={i}
-              keyS={Object.keys(flagData)[Object.values(flagSequence)[i]]}
-              name={Object.values(flagData)[Object.values(flagSequence)[i]]}
-            />
+      {flagData
+        ? Array(...Array(3)).map((v, i) => (
+            <Card key={i} image={flagData[i].url} name={flagData[i].name} />
           ))
         : ""}
     </div>
