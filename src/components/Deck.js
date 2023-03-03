@@ -18,10 +18,11 @@ const Deck = () => {
       const data = await resp.json();
       const totalFlags = Object.keys(data).length;
       const images = await Promise.all(
-        Array(...Array(12)).map(async (v, i) => {
+        Array(...Array(15)).map(async (v, i) => {
           const randNum = Math.floor(Math.random() * totalFlags);
           return {
-            url: await fetchImage(Object.keys(data)[randNum]),
+            url: await fetchImage(),
+            code: Object.keys(data)[randNum],
             name: Object.values(data)[randNum],
           };
         })
@@ -34,8 +35,12 @@ const Deck = () => {
   return (
     <div className={styles.deck}>
       {flagData
-        ? Array(...Array(12)).map((v, i) => (
-            <Card key={i} image={flagData[i].url} name={flagData[i].name} />
+        ? Array(...Array(15)).map((v, i) => (
+            <Card
+              key={flagData[i].code}
+              image={flagData[i].url}
+              name={flagData[i].name}
+            />
           ))
         : ""}
     </div>
