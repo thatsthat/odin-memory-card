@@ -21,7 +21,7 @@ const Deck = () => {
         Array(...Array(15)).map(async (v, i) => {
           const randNum = Math.floor(Math.random() * totalFlags);
           return {
-            url: await fetchImage(),
+            url: await fetchImage(Object.keys(data)[randNum]),
             code: Object.keys(data)[randNum],
             name: Object.values(data)[randNum],
           };
@@ -32,6 +32,8 @@ const Deck = () => {
     fetchImages();
   }, []);
 
+  const clickCard = () => console.log("ieeep");
+
   return (
     <div className={styles.deck}>
       {flagData
@@ -40,6 +42,7 @@ const Deck = () => {
               key={flagData[i].code}
               image={flagData[i].url}
               name={flagData[i].name}
+              click={clickCard}
             />
           ))
         : ""}
