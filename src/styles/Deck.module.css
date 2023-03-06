@@ -1,6 +1,6 @@
 .deck {
   display: grid;
-  gap: 25px;
+  gap: 35px;
   grid-template-columns: repeat(auto-fit, minmax(190px, 1fr));
   margin: 1rem;
 }

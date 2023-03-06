@@ -11,7 +11,7 @@ function App() {
   }, []);
 
   const clickCardFunc = (event) =>
-    console.log(event.currentTarget.getAttribute("code"));
+    console.log(event.currentTarget.firstChild.getAttribute("code"));
   return (
     <div className="App">
       <Deck clickCard={clickCardFunc} />
