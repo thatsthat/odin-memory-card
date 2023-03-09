@@ -38,9 +38,10 @@ const Deck = (props) => {
       const flagInts = randFlags(15, totalFlags);
       const images = Array(...Array(15)).map((v, i) => {
         const randNum = flagInts[i];
+        const flagCode = Object.keys(data)[randNum];
         return {
-          url: `https://flagcdn.com/${Object.keys(data)[randNum]}.svg`,
-          code: Object.keys(data)[randNum],
+          url: `https://flagcdn.com/${flagCode}.svg`,
+          code: flagCode,
           name: Object.values(data)[randNum],
         };
       });
