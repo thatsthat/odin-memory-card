@@ -6,14 +6,6 @@ const Deck = (props) => {
   const [flagData, setFlagData] = useState();
 
   useEffect(() => {
-    const fetchImage = async (flagCode) => {
-      const imageUrl = `https://flagcdn.com/${flagCode}.svg`;
-      const res = await fetch(imageUrl);
-      const imageBlob = await res.blob();
-      const imageObjectURL = URL.createObjectURL(imageBlob);
-      return imageObjectURL;
-    };
-
     const randFlags = (numFlags, maxInt) => {
       // You can take this value from user
       const n = 5;
@@ -44,16 +36,14 @@ const Deck = (props) => {
       const data = await resp.json();
       const totalFlags = Object.keys(data).length;
       const flagInts = randFlags(15, totalFlags);
-      const images = await Promise.all(
-        Array(...Array(15)).map(async (v, i) => {
-          const randNum = flagInts[i];
-          return {
-            url: await fetchImage(Object.keys(data)[randNum]),
-            code: Object.keys(data)[randNum],
-            name: Object.values(data)[randNum],
-          };
-        })
-      );
+      const images = Array(...Array(15)).map((v, i) => {
+        const randNum = flagInts[i];
+        return {
+          url: `https://flagcdn.com/${Object.keys(data)[randNum]}.svg`,
+          code: Object.keys(data)[randNum],
+          name: Object.values(data)[randNum],
+        };
+      });
       setFlagData(images);
     };
     fetchImages();
