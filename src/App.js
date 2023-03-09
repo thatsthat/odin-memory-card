@@ -67,8 +67,8 @@ function App() {
   }, []);
 
   const clickCardFunc = (event) => {
-    //setCounter((a) => a + 1);
     setFlagSeq((seq) => shuffleArray(seq));
+    setCounter((a) => a + 1);
     const flag = event.currentTarget.firstChild.getAttribute("code");
     if (clickedFlags.includes(flag)) {
     }
