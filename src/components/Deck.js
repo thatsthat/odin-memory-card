@@ -3,7 +3,6 @@ import styles from "../styles/Deck.module.css";
 import Card from "./Card";
 
 const Deck = (props) => {
-  console.log(props.flagSeq);
   return (
     <div className={styles.deck}>
       {Array(...Array(15)).map((v, i) => (
