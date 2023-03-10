@@ -44,32 +44,35 @@ function App() {
     return array;
   };
 
+  const fetchImages = async () => {
+    const resp = await fetch("https://flagcdn.com/en/codes.json");
+    const data = await resp.json();
+    const totalFlags = Object.keys(data).length;
+    const flagInts = randFlags(nFlags, totalFlags);
+    const flagSequence = [...Array(nFlags).keys()].map((i) => i);
+    setFlagSeq(flagSequence);
+    const images = Array(...Array(nFlags)).map((v, i) => {
+      const randNum = flagInts[i];
+      const flagCode = Object.keys(data)[randNum];
+      return {
+        url: `https://flagcdn.com/${flagCode}.svg`,
+        code: flagCode,
+        name: Object.values(data)[randNum],
+      };
+    });
+    setFlagData(images);
+  };
+
   useEffect(() => {
-    const fetchImages = async () => {
-      const resp = await fetch("https://flagcdn.com/en/codes.json");
-      const data = await resp.json();
-      const totalFlags = Object.keys(data).length;
-      const flagInts = randFlags(nFlags, totalFlags);
-      const flagSequence = [...Array(nFlags).keys()].map((i) => i);
-      setFlagSeq(flagSequence);
-      const images = Array(...Array(nFlags)).map((v, i) => {
-        const randNum = flagInts[i];
-        const flagCode = Object.keys(data)[randNum];
-        return {
-          url: `https://flagcdn.com/${flagCode}.svg`,
-          code: flagCode,
-          name: Object.values(data)[randNum],
-        };
-      });
-      setFlagData(images);
-    };
     fetchImages();
   }, []);
 
   const clickCardFunc = (event) => {
     const flag = event.currentTarget.firstChild.getAttribute("code");
     if (clickedFlags.includes(flag)) {
-      console.log("fail");
+      setClickedFlags([]);
+      fetchImages();
+      setCounter((a) => a + 1);
     } else {
       setClickedFlags((a) => [...a, flag]);
       setFlagSeq((seq) => shuffleArray(seq));
