@@ -4,3 +4,8 @@
   grid-template-columns: repeat(auto-fit, minmax(190px, 1fr));
   margin: 1rem;
 }
+.link {
+  display: flex;
+  justify-content: center;
+  margin: 2rem;
+}
