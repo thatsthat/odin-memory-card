@@ -4,7 +4,8 @@ import ScoreBoard from "./components/ScoreBoard";
 
 function App() {
   const nFlags = 15;
-  const [score, setScore] = useState();
+  const [currentScore, setCurrentScore] = useState(0);
+  const [bestScore, setBestScore] = useState(0);
   const [clickedFlags, setClickedFlags] = useState([]);
   const [counter, setCounter] = useState(0);
   const [flagSeq, setFlagSeq] = useState();
@@ -73,15 +74,21 @@ function App() {
       setClickedFlags([]);
       fetchImages();
       setCounter((a) => a + 1);
+      setCurrentScore(0);
     } else {
       setClickedFlags((a) => [...a, flag]);
       setFlagSeq((seq) => shuffleArray(seq));
       setCounter((a) => a + 1);
+      setCurrentScore((a) => a + 1);
     }
+    console.log(currentScore, bestScore);
+    if (bestScore === 0) setBestScore(1);
+    if (currentScore > bestScore) setBestScore(currentScore);
   };
   if (!(typeof flagData === "undefined")) {
     return (
       <div className="App">
+        <ScoreBoard score={currentScore} bestScore={bestScore} />
         <Deck
           clickCard={clickCardFunc}
           key={counter}

@@ -1,0 +1,9 @@
+.ScoreBoard {
+  display: flex;
+  justify-content: center;
+  padding: 2rem;
+}
+.score {
+  padding: 0 1rem;
+  font-size: 2rem;
+}
